@@ -81,6 +81,7 @@ var count = Counter.init()
     
     @objc func playAgainPressed(sender: UIButton){
          newColor()
+         enableAll()
          gameOverLabel.isHidden = true
          playAgainLabel.isHidden = true
     }
@@ -203,11 +204,23 @@ var count = Counter.init()
 //        score = 0
         count.reset()
         currentScoreLabel.text = "Score: \(count.score)"
+        disableAll()
         gameOverLabel.isHidden = false
         playAgainLabel.isHidden = false
         }
     }
     
+    func disableAll(){
+        greenButton.isEnabled = false
+        redButton.isEnabled = false
+        blueButton.isEnabled = false
+    }
+    
+    func enableAll(){
+        greenButton.isEnabled = true
+        redButton.isEnabled = true
+        blueButton.isEnabled = true
+    }
     
     //MARK: Lifecycle Methods
 
