@@ -12,14 +12,14 @@ class ViewController: UIViewController {
     
     
     //MARK: Game Variables
-var arrColors = [UIColor.blue,UIColor.red,UIColor.green]
+var arrColors = [UIColor.blue, UIColor.red, UIColor.green]
 var score = Counter.init(score: 0, highScore: 0)
 var red: CGFloat = 0.0
 var green: CGFloat = 0.0
 var blue: CGFloat = 0.0
 var alpha: CGFloat = 0.0
-var answer = " "
-var input = " "
+var answer = ""
+var input = ""
 var count = Counter.init()
     
     
@@ -37,17 +37,53 @@ var count = Counter.init()
         return myView
     }()
     
-    @IBOutlet weak var currentScoreLabel: UILabel!
-    
-    @IBOutlet weak var redlabel: UIButton!
-    @IBOutlet weak var highScoreLabel: UILabel!
-    
-    @IBOutlet weak var gameOverLabel: UILabel!
-    
-    @IBOutlet weak var playAgainLabel: UIButton!
-    
+//    @IBOutlet weak var currentScoreLabel: UILabel!
+    lazy var currentScoreLabel: UILabel = {
+        let label = UILabel(frame: CGRect(x: 2, y: 10, width: 300, height: 90))
+        label.text = "Score: 0"
+        label.textColor = .white
+        return label
+    }()
     
     
+
+    
+//    @IBOutlet weak var highScoreLabel: UILabel!
+    lazy var highScoreLabel: UILabel = {
+        let label = UILabel(frame: CGRect(x: 2, y: 30, width: 300, height: 90))
+        label.text = "High Score: 0"
+        label.textColor = .white
+        return label
+    }()
+    
+    
+//    @IBOutlet weak var gameOverLabel: UILabel!
+    
+    lazy var gameOverLabel: UILabel = {
+        let label = UILabel(frame: CGRect(x: 150, y: 700, width: 100, height: 50))
+        label.text = " Game Over"
+        label.textColor = .white
+        return label
+    }()
+    
+    
+    
+    
+    
+//    @IBOutlet weak var playAgainLabel: UIButton!
+    
+    lazy var playAgainLabel: UIButton = {
+        let button = UIButton(frame: CGRect(x: 150, y: 800, width: 100, height: 50))
+        button.setTitle("Play Again?", for: .normal)
+        button.addTarget(self, action: #selector(playAgainPressed(sender: )), for: .touchUpInside)
+        return button
+    }()
+    
+    @objc func playAgainPressed(sender: UIButton){
+         newColor()
+         gameOverLabel.isHidden = true
+         playAgainLabel.isHidden = true
+    }
     
 //    @IBAction func playAgainButton(_ sender: UIButton) {
 //        newColor()
@@ -56,12 +92,21 @@ var count = Counter.init()
 //    }
     
 //
-//    @IBAction func redButton(_ sender: UIButton) {
-//        input = "red"
-//        findValue()
-//        checkInput()
-//
-//    }
+    
+
+    
+    lazy var redButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: 60, y: 480, width: 80, height: 80))
+        button.backgroundColor = .red
+        button.addTarget(self, action: #selector(redPressed(sender: )), for: .touchUpInside)
+        return button
+    }()
+    
+    @objc func redPressed(sender: UIButton){
+        input = "red"
+        findValue()
+        checkInput()
+       }
 
 //    @IBAction func greenButton(_ sender: UIButton) {
 //        input = "green"
@@ -69,18 +114,45 @@ var count = Counter.init()
 //        checkInput()
 //    }
     
+    lazy var greenButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: 170, y: 480, width: 80, height: 80))
+        button.backgroundColor = .green
+        button.addTarget(self, action: #selector(greenPressed(sender: )), for: .touchUpInside)
+        return button
+    }()
     
-//
-//    @IBAction func blueButton(_ sender: UIButton) {
-//        input = "blue"
-//        findValue()
-//        checkInput()
-//    }
-//
+    @objc func greenPressed(sender: UIButton){
+     input = "green"
+     findValue()
+     checkInput()
+    }
+    
+    lazy var blueButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: 280, y: 480, width: 80, height: 80))
+        button.backgroundColor = .blue
+        button.addTarget(self, action: #selector(bluePressed(sender: )), for: .touchUpInside)
+        return button
+    }()
+    
+    @objc func bluePressed(sender: UIButton){
+     input = "blue"
+     findValue()
+     checkInput()
+    }
     
     
     private func setUpViews(){
         self.view.addSubview(colorView)
+        self.view.addSubview(currentScoreLabel)
+        self.view.addSubview(gameOverLabel)
+        self.view.addSubview(highScoreLabel)
+        self.view.addSubview(playAgainLabel)
+        self.view.addSubview(redButton)
+        self.view.addSubview(greenButton)
+        self.view.addSubview(blueButton)
+
+
+
     }
     
     private func setConstraints() {
@@ -140,10 +212,12 @@ var count = Counter.init()
     //MARK: Lifecycle Methods
 
     override func viewDidLoad() {
+    newColor()
     super.viewDidLoad()
-    self.view.addSubview(colorView)
+    setUpViews()
     self.view.backgroundColor = .systemGray
-//    gameOverLabel.isHidden = true
+    gameOverLabel.isHidden = true
+    playAgainLabel.isHidden = true
     }
 
 }
