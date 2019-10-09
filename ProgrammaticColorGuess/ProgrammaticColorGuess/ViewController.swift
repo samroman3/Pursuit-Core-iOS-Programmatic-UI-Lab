@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController {
     
     
-    //MARK: Variables
+    //MARK: Game Variables
 var arrColors = [UIColor.blue,UIColor.red,UIColor.green]
 var score = Counter.init(score: 0, highScore: 0)
 var red: CGFloat = 0.0
@@ -21,14 +21,21 @@ var alpha: CGFloat = 0.0
 var answer = " "
 var input = " "
 var count = Counter.init()
-var redimage = UIImage(named: "redbutton")
     
     
     //TODO: Create programmatic labels and buttons for each storyboard outlet with actions if applicable
     
     
+    
+    //MARK: UI Setup
 
-    @IBOutlet weak var colorScreen: UIView!
+//    @IBOutlet weak var colorScreen: UIView!
+    
+    lazy var colorView: UIView = {
+        let myView = UIView(frame: CGRect(x: 60, y: 100, width: 300, height: 300))
+        myView.backgroundColor = UIColor.green
+        return myView
+    }()
     
     @IBOutlet weak var currentScoreLabel: UILabel!
     
@@ -70,8 +77,25 @@ var redimage = UIImage(named: "redbutton")
 //        checkInput()
 //    }
 //
+    
+    
+    private func setUpViews(){
+        self.view.addSubview(colorView)
+    }
+    
+    private func setConstraints() {
+            self.colorView.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate(
+                [colorView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 20)])
+            }
+    
+    
+    
+    //MARK: Game Logic
+    //TODO: add all logic to seperate struct
+    
     private func newColor(){
-        self.colorScreen.backgroundColor = mixColor()
+        self.colorView.backgroundColor = mixColor()
         
     }
     func mixColor()-> UIColor{
@@ -112,12 +136,14 @@ var redimage = UIImage(named: "redbutton")
         }
     }
     
+    
+    //MARK: Lifecycle Methods
 
     override func viewDidLoad() {
     super.viewDidLoad()
-    self.colorScreen.backgroundColor = mixColor()
-    gameOverLabel.isHidden = true
-    redlabel.setBackgroundImage(redimage, for: UIControl.State.normal)
+    self.view.addSubview(colorView)
+    self.view.backgroundColor = .systemGray
+//    gameOverLabel.isHidden = true
     }
 
 }
